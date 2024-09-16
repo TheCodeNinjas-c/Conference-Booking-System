@@ -19,8 +19,20 @@
     ```
 
 3. Install frontend dependencies (if any). Currently, no additional setup is required for the frontend.
+    For EXPRESS
+    ```bash
+    cd c:\Users\b2537\OneDrive\School\backend
+    npm install express
+    node server.js
+    ```
+    For UUID
+    ```bash
+    cd c:\Users\b2537\OneDrive\School\backend
+    npm install uuid
+    node server.js
+    ```
 
-4. Run the server:
+5. Run the server:
     ```bash
     node server.js
     ```
