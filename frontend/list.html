@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Users</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container">
+        <img src="https://i.ibb.co/jzggZWr/images.png" alt="Logo" class="logo">
+        <span class="logo-text">TheBook.Co</span>
+    </div>
+    
+    <h2>Manage Users</h2>
+    <p class="Trademark">Developed By TheCodeNinjas™</p>
+    
+    <button onclick="goBack()">Go Back</button>
+    
+    <div id="usersTableContainer">
+      <table id="usersTable">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Users will be populated here -->
+        </tbody>
+      </table>
+    </div>
+    
+    <button onclick="showAddUserForm()">Add New User</button>
+
+    <div id="addUserForm" style="display:none;">
+      <h3>Add New User</h3>
+      <label for="newUserId">User ID:</label>
+      <input type="text" id="newUserId" name="newUserId"><br><br>
+      <label for="newUserPassword">Password:</label>
+      <input type="password" id="newUserPassword" name="newUserPassword"><br><br>
+      <label for="newUserName">Name:</label>
+      <input type="text" id="newUserName" name="newUserName"><br><br>
+      <button onclick="addUser()">Add User</button>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:5000/api';
+
+    const listUsers = async () => {
+      try {
+        const response = await fetch(`${API_URL}/users`);
+        const users = await response.json();
+        let usersHtml = '';
+        users.forEach(user => {
+          usersHtml += `<tr><td>${user.user_id}</td><td>${user.name}</td><td><button onclick="deleteUser('${user.user_id}')">Delete</button></td></tr>`;
+        });
+        document.querySelector('#usersTable tbody').innerHTML = usersHtml;
+      } catch (error) {
+        console.error('Error listing users:', error);
+      }
+    };
+
+    const showAddUserForm = () => {
+      document.getElementById('addUserForm').style.display = 'block';
+    };
+
+    const addUser = async () => {
+      const userId = document.getElementById('newUserId').value;
+      const password = document.getElementById('newUserPassword').value;
+      const name = document.getElementById('newUserName').value;
+      try {
+        const response = await fetch(`${API_URL}/users`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ user_id: userId, password: password, name: name })
+        });
+        if (response.ok) {
+          listUsers();
+          document.getElementById('addUserForm').style.display = 'none';
+        } else {
+          console.error('Error adding user:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error adding user:', error);
+      }
+    };
+
+    const deleteUser = async (userId) => {
+      if (confirm(`Are you sure you want to delete user ${userId}?`)) {
+        try {
+          const response = await fetch(`${API_URL}/users/${userId}`, {
+            method: 'DELETE'
+          });
+          if (response.ok) {
+            listUsers();
+          } else {
+            console.error('Error deleting user:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error deleting user:', error);
+        }
+      }
+    };
+
+    const checkLogin = () => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user) {
+        window.location.href = 'login.html';
+      }
+    };
+
+    const saveUserToLocalStorage = (user) => {
+      localStorage.setItem('user', JSON.stringify(user));
+    };
+
+    const logout = () => {
+      localStorage.removeItem('user');
+      window.location.href = 'login.html';
+    };
+
+    const goBack = () => {
+      window.location.href = 'index.html';
+    };
+
+    // Initial call to list users
+    listUsers();
+  </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conference Booking System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container">
+        <img src="https://i.ibb.co/jzggZWr/images.png" alt="Logo" class="logo">
+        <span class="logo-text">TheBook.Co</span>
+    </div>
+    
+    <h2 id="greeting"></h2> <!-- Greeting message will appear here -->
+
+    <div id="auth">
+      <h2>Login</h2>
+      <p class="Trademark">Developed By TheCodeNinjas™</p>
+      <input type="text" id="username" placeholder="Username">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="login()">Login</button>
+    </div>
+
+    <div id="booking" style="display: none;">
+      <h2>Conference Booking System</h2>
+      <p class="Trademark">Developed By TheCodeNinjas™</p>
+
+      <select id="day">
+        <option value="">Select Day</option>
+        <option value="Sunday">Sunday</option>
+        <option value="Monday">Monday</option>
+        <option value="Tuesday">Tuesday</option>
+        <option value="Wednesday">Wednesday</option>
+        <option value="Thursday">Thursday</option>
+      </select>
+      <input type="date" id="date">
+      <input type="time" id="startTime">
+      <input type="time" id="endTime">
+      <button onclick="bookSlot()">Book Slot</button>
+      <button onclick="fetchBookings()">Refresh Bookings</button>
+      <button onclick="logout()">Logout</button>
+      <button id="manageAccountButton" onclick="manageAccount()" style="display:none;">Manage Account</button>
+      <div id="bookingTable">
+        <table>
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Date</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Booked By</th>
+              <th>Actions</th> <!-- Added Actions column -->
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Booking rows will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="manageAccount" style="display: none;">
+      <!-- Manage account options will be added here -->
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
